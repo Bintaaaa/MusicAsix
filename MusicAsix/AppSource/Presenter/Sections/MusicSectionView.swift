@@ -167,10 +167,10 @@ class MusicSectionView: UIView {
         ])
     }
     
-    func updateUI(with track: Track) {
-        trackNameLabel.text = track.trackName
-        artistNameLabel.text = track.artistName
-        if let imageUrlString: String = track.image,
+    func updateUI(with track: MusicEntity) {
+        trackNameLabel.text = track.songs
+        artistNameLabel.text = track.name
+        if let imageUrlString: String = track.artworlURLString,
            let imageUrl: URL = URL(string: imageUrlString){
             trackArtworkImageView.load(url: imageUrl)
         }

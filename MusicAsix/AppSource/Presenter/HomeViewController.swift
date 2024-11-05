@@ -8,8 +8,7 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    
-    
+    private let homeViewModel: HomeViewModel
     
     private lazy var titleSection: TitleSectionView = {
         let header = TitleSectionView(frame: .zero)
@@ -37,6 +36,16 @@ class HomeViewController: UIViewController {
             controllerView.delegate = self
             return controllerView
         }()
+    
+        init(homeViewModel: HomeViewModel) {
+            self.homeViewModel = homeViewModel
+            super.init(nibName: nil, bundle: nil)
+            homeViewModel.delegate = self
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
   
     
     override func viewDidLoad() {
@@ -75,18 +84,47 @@ extension HomeViewController{
             musicControllerView.leftAnchor.constraint(equalTo: view.leftAnchor),
             musicControllerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             musicControllerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            musicControllerView.heightAnchor.constraint(equalToConstant: 150) // Tinggi controller
+            musicControllerView.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
 }
 
-extension HomeViewController: UISearchBarDelegate{}
+extension HomeViewController: UISearchBarDelegate{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let artist = searchBar.text, !artist.isEmpty else{
+            return
+        }
+        performSearch(for: artist)
+        searchBar.resignFirstResponder()
+    }
+    func performSearch(for artist: String)  {
+         homeViewModel.searchMusic(by: artist)
+        }
+}
+
+extension HomeViewController: HomeViewModelDelegate{
+    func didStartLoading() {
+        trackTableSeaction.startLoading()
+    }
+    
+    func didFailWithError(_ error: any Error) {
+        
+    }
+    
+    func didUpdateNowPlaying(track: MusicEntity?) {
+        
+    }
+    
+    func didUpdateTracks(_ tracks: [MusicEntity]) {
+        DispatchQueue.main.async {
+            self.trackTableSeaction.setTracks(tracks)
+        }
+    }
+}
 
 extension HomeViewController: TrackTableSectionViewDelegate{
-    func didSelectTrack(_ track: Track) {
+    func didSelectTrack(_ track: MusicEntity) {
         
-        let exampleTrack = Track(trackId: 1, trackName: "Example Song", artistName: "Example Artist", image: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/35/0f/55/350f55da-2104-162a-5872-cb35fef30410/mzi.morbeoaw.jpg/60x60bb.jpg")
-               musicControllerView.updateUI(with: exampleTrack)
     }
 }
 

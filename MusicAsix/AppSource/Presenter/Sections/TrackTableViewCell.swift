@@ -15,7 +15,7 @@ class TrackTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 8 // Membuat sudut gambar membulat
+        imageView.layer.cornerRadius = 8
         return imageView
     }()
     
@@ -48,16 +48,21 @@ class TrackTableViewCell: UITableViewCell {
     }
     
 
-    func configure(with track: Track) {
-        trackNameLabel.text = track.trackName
-        artistNameLabel.text = track.artistName
-        if let imageUrlString: String = track.image,
+    func configure(with track: MusicEntity) {
+        trackNameLabel.text = track.songs
+        artistNameLabel.text = track.name
+        if let imageUrlString: String = track.artworlURLString,
            let imageUrl: URL = URL(string: imageUrlString){
             trackArtworkImageView.load(url: imageUrl)
         }
     
     }
     
+}
+
+
+
+extension TrackTableViewCell{
     
     private func setupViews() {
         contentView.addSubview(trackArtworkImageView)
