@@ -76,16 +76,12 @@ extension HomeViewController{
     func setUpContrains(){
         NSLayoutConstraint.activate([
             titleSection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            titleSection.leftAnchor.constraint(equalTo: view.leftAnchor),
+            titleSection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             searchSection.topAnchor.constraint(equalTo: titleSection.bottomAnchor),
-            searchSection.leftAnchor.constraint(equalTo: view.leftAnchor),
+            searchSection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            trackTableSeaction.topAnchor.constraint(equalTo: searchSection.bottomAnchor),
-            trackTableSeaction.leftAnchor.constraint(equalTo: view.leftAnchor),
-            trackTableSeaction.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
         ])
         
@@ -94,13 +90,13 @@ extension HomeViewController{
 
             NSLayoutConstraint.activate([
                 trackTableSeaction.topAnchor.constraint(equalTo: searchSection.bottomAnchor),
-                trackTableSeaction.leftAnchor.constraint(equalTo: view.leftAnchor),
+                trackTableSeaction.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 trackTableSeaction.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 trackTableBottomConstraintWithoutController
             ])
             
             NSLayoutConstraint.activate([
-                musicControllerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                musicControllerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 musicControllerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 musicControllerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
                 musicControllerView.heightAnchor.constraint(equalToConstant: 140)
