@@ -130,12 +130,8 @@ extension TrackTableSectionView: UITableViewDataSource, UITableViewDelegate {
         }
         
         let track = tracks[indexPath.row]
-        if indexPath.row == currentlyPlayingTrack {
-            cell.configure(with: track, isPlaying: true)
-        }else{
-            cell.configure(with: track, isPlaying: false)
-        }
-        
+        let isPlaying = indexPath.row == currentlyPlayingTrack
+        cell.configure(with: track, isPlaying: isPlaying)
         return cell
     }
     
