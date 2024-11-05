@@ -54,7 +54,7 @@ class TrackTableSectionView: UIView {
 extension TrackTableSectionView {
     func setUpView() {
         addSubview(trackTableView)
-        trackTableView.dataSource = self // Mengatur data source dari trackTableView ke self
+        trackTableView.dataSource = self 
     }
     
     func setUpConstraints() {
