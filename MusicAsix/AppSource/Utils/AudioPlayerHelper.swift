@@ -10,7 +10,7 @@ import AVFoundation
 class AudioPlayerHelper {
     static let shared = AudioPlayerHelper()
 
-    private var player: AVPlayer?
+    var player: AVPlayer?
 
     private init() { }
 
