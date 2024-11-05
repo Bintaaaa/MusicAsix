@@ -9,7 +9,6 @@ import Foundation
 
 protocol HomeViewModelDelegate: AnyObject {
     func didUpdateTracks(_ tracks: [MusicEntity])
-    func didFailWithError(_ error: Error)
     func didUpdateNowPlaying(track: MusicEntity?, index: Int?)
     func didStartLoading()
 }
@@ -34,13 +33,12 @@ class HomeViewModel {
                 self?.delegate?.didUpdateTracks(entities)
                 self?.tracks = entities
             case .failure(let error):
-                self?.delegate?.didFailWithError(error)
+                print("failure.. \(error)")
             }
         }
     }
     
     func selectTrack(at index: Int) {
-        print("selectTrack index \(index)")
         guard index >= 0 && index < tracks.count else { return }
         currentTrackIndex = index
         let selectedTrack = tracks[index]

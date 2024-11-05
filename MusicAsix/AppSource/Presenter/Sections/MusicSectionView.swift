@@ -13,7 +13,6 @@ protocol MusiSectionViewDelegate: AnyObject {
     func didTapPlayPause()
     func didTapNext()
     func didTapPrevious()
-    func didChangeSliderValue(to value: Float)
 }
 
 

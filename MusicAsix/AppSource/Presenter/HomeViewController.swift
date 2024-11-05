@@ -139,10 +139,6 @@ extension HomeViewController: HomeViewModelDelegate{
         trackTableSeaction.startLoading()
     }
     
-    func didFailWithError(_ error: any Error) {
-        
-    }
-    
     func didUpdateNowPlaying(track: MusicEntity?, index: Int?) {
         musicControllerView.updateUI(with: track!)
         trackTableSeaction.updatePlayingTrack(index!)
@@ -174,9 +170,5 @@ extension HomeViewController: MusiSectionViewDelegate {
     
     func didTapPrevious() {
         homeViewModel.playPrevious()
-    }
-    
-    func didChangeSliderValue(to value: Float) {
-        print("Slider value changed to: \(value)")
     }
 }
