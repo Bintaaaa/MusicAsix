@@ -20,11 +20,12 @@ class MusicRepository {
             case .success(let tracks):
                 
                 let entities = tracks.results.map { track in
+                    
                     MusicEntity(
                         name: track.trackName ?? "-",
                         songs: track.artistName ?? "-",
                         artworlURLString: track.artworkUrl100 ?? "",
-                        preview: track.previewURL ?? ""
+                        previewURL: track.previewUrl ?? ""
                     )
                 }
                 completion(.success(entities))

@@ -13,10 +13,10 @@ struct MusicEntity {
     var previewURL: String
     var isSelected: Bool = false
     
-    init(name: String, songs: String, artworlURLString: String, preview url: String) {
+    init(name: String, songs: String, artworlURLString: String, previewURL: String) {
         self.name = name
         self.songs = songs
         self.artworlURLString = artworlURLString
-        self.previewURL = url
+        self.previewURL = previewURL
     }
 }

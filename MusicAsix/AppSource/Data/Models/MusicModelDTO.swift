@@ -15,7 +15,7 @@ struct MusicModelDTO: Codable {
     let artistName, collectionName, trackName, collectionCensoredName: String?
     let trackCensoredName: String?
     let artistViewURL, collectionViewURL, trackViewURL: String?
-    let previewURL: String?
+    let previewUrl: String?
     let artworkUrl30, artworkUrl60, artworkUrl100: String?
     let collectionPrice, trackPrice: Double?
     let discCount, discNumber, trackCount, trackNumber: Int?
