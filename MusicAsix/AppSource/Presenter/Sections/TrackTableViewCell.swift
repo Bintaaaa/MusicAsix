@@ -36,7 +36,15 @@ class TrackTableViewCell: UITableViewCell {
         return label
     }()
     
-
+    private let playingIcon: UIImageView = {
+        let icon = UIImageView(image: UIImage(systemName: "play.circle.fill"))
+        icon.tintColor = .systemBlue
+        icon.isHidden = true
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        return icon
+    }()
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -48,9 +56,10 @@ class TrackTableViewCell: UITableViewCell {
     }
     
 
-    func configure(with track: MusicEntity) {
+    func configure(with track: MusicEntity, isPlaying: Bool) {
         trackNameLabel.text = track.songs
         artistNameLabel.text = track.name
+        playingIcon.isHidden = !isPlaying
         if let imageUrlString: String = track.artworlURLString,
            let imageUrl: URL = URL(string: imageUrlString){
             trackArtworkImageView.load(url: imageUrl)
@@ -68,27 +77,35 @@ extension TrackTableViewCell{
         contentView.addSubview(trackArtworkImageView)
         contentView.addSubview(trackNameLabel)
         contentView.addSubview(artistNameLabel)
+        contentView.addSubview(playingIcon)
     }
     
-
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-        
+            
             trackArtworkImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             trackArtworkImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             trackArtworkImageView.widthAnchor.constraint(equalToConstant: 50),
             trackArtworkImageView.heightAnchor.constraint(equalToConstant: 50),
             
-           
+            
             trackNameLabel.leadingAnchor.constraint(equalTo: trackArtworkImageView.trailingAnchor, constant: 16),
-            trackNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            trackNameLabel.trailingAnchor.constraint(equalTo: playingIcon.leadingAnchor, constant: -16),
             trackNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             
-           
+            
             artistNameLabel.leadingAnchor.constraint(equalTo: trackArtworkImageView.trailingAnchor, constant: 16),
-            artistNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            artistNameLabel.trailingAnchor.constraint(equalTo: playingIcon.leadingAnchor, constant: -16),
             artistNameLabel.topAnchor.constraint(equalTo: trackNameLabel.bottomAnchor, constant: 4),
-            artistNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            artistNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            
+            playingIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            playingIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            playingIcon.widthAnchor.constraint(equalToConstant: 24),
+            playingIcon.heightAnchor.constraint(equalToConstant: 24),
+            
         ])
     }
+    
 }

@@ -67,7 +67,7 @@ class MusicSectionView: UIView {
 
     private let playPauseButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "pause.fill"), for: .normal)
         button.tintColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(MusiSectionViewDelegate.self, action: #selector(didTapPlayPause), for: .touchUpInside)
@@ -83,15 +83,6 @@ class MusicSectionView: UIView {
         return button
     }()
 
-    private let timeSlider: UISlider = {
-        let slider = UISlider()
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.minimumValue = 0
-        slider.maximumValue = 1
-        slider.addTarget(MusiSectionViewDelegate.self, action: #selector(didChangeSliderValue), for: .valueChanged)
-        return slider
-    }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -105,26 +96,29 @@ class MusicSectionView: UIView {
     
 
     @objc private func didTapPlayPause() {
-        delegate?.didTapPlayPause()
         togglePlayPauseIcon()
     }
     
     @objc private func didTapNext() {
+        iconPause()
         delegate?.didTapNext()
     }
     
     @objc private func didTapPrevious() {
+        iconPause()
         delegate?.didTapPrevious()
-    }
-    
-    @objc private func didChangeSliderValue() {
-        delegate?.didChangeSliderValue(to: timeSlider.value)
     }
     
 
     private func togglePlayPauseIcon() {
-        let iconName = (playPauseButton.currentImage == UIImage(systemName: "play.fill")) ? "pause.fill" : "play.fill"
+        let isPlay = (playPauseButton.currentImage == UIImage(systemName: "play.fill"))
+        let iconName =  isPlay ? "pause.fill" : "play.fill"
         playPauseButton.setImage(UIImage(systemName: iconName), for: .normal)
+        delegate?.didTapPlayPause()
+    }
+    
+    private func iconPause(){
+        playPauseButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
     }
     
 
@@ -136,7 +130,6 @@ class MusicSectionView: UIView {
         addSubview(previousButton)
         addSubview(playPauseButton)
         addSubview(nextButton)
-        addSubview(timeSlider)
     }
     
     private func setupConstraints() {
@@ -165,6 +158,7 @@ class MusicSectionView: UIView {
             previousButton.heightAnchor.constraint(equalToConstant: 40),
 
             playPauseButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            playPauseButton.centerYAnchor.constraint(equalTo: previousButton.centerYAnchor),
             playPauseButton.topAnchor.constraint(equalTo: trackArtworkImageView.bottomAnchor, constant: 8),
             playPauseButton.widthAnchor.constraint(equalToConstant: 50),
             playPauseButton.heightAnchor.constraint(equalToConstant: 50),
@@ -173,11 +167,7 @@ class MusicSectionView: UIView {
             nextButton.topAnchor.constraint(equalTo: trackArtworkImageView.bottomAnchor, constant: 8),
             nextButton.widthAnchor.constraint(equalToConstant: 40),
             nextButton.heightAnchor.constraint(equalToConstant: 40),
-
-            timeSlider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            timeSlider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            timeSlider.topAnchor.constraint(equalTo: previousButton.bottomAnchor, constant: 8),
-            timeSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            nextButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     

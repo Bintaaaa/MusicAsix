@@ -86,7 +86,6 @@ extension HomeViewController{
             trackTableSeaction.topAnchor.constraint(equalTo: searchSection.bottomAnchor),
             trackTableSeaction.leftAnchor.constraint(equalTo: view.leftAnchor),
             trackTableSeaction.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            trackTableSeaction.bottomAnchor.constraint(equalTo: musicControllerView.topAnchor),
             
         ])
         
@@ -104,7 +103,7 @@ extension HomeViewController{
                 musicControllerView.leftAnchor.constraint(equalTo: view.leftAnchor),
                 musicControllerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 musicControllerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                musicControllerView.heightAnchor.constraint(equalToConstant: 150)
+                musicControllerView.heightAnchor.constraint(equalToConstant: 140)
             ])
     }
     
@@ -139,6 +138,7 @@ extension HomeViewController: UISearchBarDelegate{
 }
 
 extension HomeViewController: HomeViewModelDelegate{
+    
     func didStartLoading() {
         trackTableSeaction.startLoading()
     }
@@ -147,8 +147,9 @@ extension HomeViewController: HomeViewModelDelegate{
         
     }
     
-    func didUpdateNowPlaying(track: MusicEntity?) {
-        
+    func didUpdateNowPlaying(track: MusicEntity?, index: Int?) {
+        musicControllerView.updateUI(with: track!)
+        trackTableSeaction.updatePlayingTrack(index!)
     }
     
     func didUpdateTracks(_ tracks: [MusicEntity]) {
@@ -159,23 +160,24 @@ extension HomeViewController: HomeViewModelDelegate{
 }
 
 extension HomeViewController: TrackTableSectionViewDelegate{
-    func didSelectTrack(_ track: MusicEntity) {
+    func didSelectTrack(_ track: MusicEntity, index: Int) {
         showMusicControllerView()
         musicControllerView.updateUI(with: track)
+        homeViewModel.selectTrack(at: index)
     }
 }
 
 extension HomeViewController: MusiSectionViewDelegate {
     func didTapPlayPause() {
-        print("Play/Pause tapped")
+        homeViewModel.playAndPause()
     }
     
     func didTapNext() {
-        print("Next tapped")
+        homeViewModel.playNext()
     }
     
     func didTapPrevious() {
-        print("Previous tapped")
+        homeViewModel.playPrevious()
     }
     
     func didChangeSliderValue(to value: Float) {
