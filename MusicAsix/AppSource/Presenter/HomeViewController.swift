@@ -30,32 +30,39 @@ class HomeViewController: UIViewController {
         return table
     }()
     
+    private var trackTableBottomConstraintWithController: NSLayoutConstraint!
+    private var trackTableBottomConstraintWithoutController: NSLayoutConstraint!
+
+    
+    
     private lazy var musicControllerView: MusicSectionView = {
         let controllerView = MusicSectionView(frame: .zero)
-            controllerView.translatesAutoresizingMaskIntoConstraints = false
-            controllerView.delegate = self
-            return controllerView
-        }()
+        controllerView.translatesAutoresizingMaskIntoConstraints = false
+        controllerView.delegate = self
+        controllerView.isHidden = true
+        return controllerView
+    }()
     
-        init(homeViewModel: HomeViewModel) {
-            self.homeViewModel = homeViewModel
-            super.init(nibName: nil, bundle: nil)
-            homeViewModel.delegate = self
-        }
-
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-  
+    init(homeViewModel: HomeViewModel) {
+        self.homeViewModel = homeViewModel
+        super.init(nibName: nil, bundle: nil)
+        homeViewModel.delegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUpSubView()
         setUpContrains()
+        hideMusicControllerView()
     }
-
-
+    
+    
 }
 
 extension HomeViewController{
@@ -81,11 +88,40 @@ extension HomeViewController{
             trackTableSeaction.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             trackTableSeaction.bottomAnchor.constraint(equalTo: musicControllerView.topAnchor),
             
-            musicControllerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            musicControllerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            musicControllerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            musicControllerView.heightAnchor.constraint(equalToConstant: 150)
         ])
+        
+        trackTableBottomConstraintWithController = trackTableSeaction.bottomAnchor.constraint(equalTo: musicControllerView.topAnchor)
+            trackTableBottomConstraintWithoutController = trackTableSeaction.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+
+            NSLayoutConstraint.activate([
+                trackTableSeaction.topAnchor.constraint(equalTo: searchSection.bottomAnchor),
+                trackTableSeaction.leftAnchor.constraint(equalTo: view.leftAnchor),
+                trackTableSeaction.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                trackTableBottomConstraintWithoutController
+            ])
+            
+            NSLayoutConstraint.activate([
+                musicControllerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                musicControllerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                musicControllerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                musicControllerView.heightAnchor.constraint(equalToConstant: 150)
+            ])
+    }
+    
+    private func hideMusicControllerView() {
+        musicControllerView.isHidden = true
+        trackTableBottomConstraintWithController.isActive = false
+        trackTableBottomConstraintWithoutController.isActive = true
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+    }
+
+    private func showMusicControllerView() {
+        musicControllerView.isHidden = false
+        trackTableBottomConstraintWithoutController.isActive = false
+        trackTableBottomConstraintWithController.isActive = true
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 }
 
@@ -98,8 +134,8 @@ extension HomeViewController: UISearchBarDelegate{
         searchBar.resignFirstResponder()
     }
     func performSearch(for artist: String)  {
-         homeViewModel.searchMusic(by: artist)
-        }
+        homeViewModel.searchMusic(by: artist)
+    }
 }
 
 extension HomeViewController: HomeViewModelDelegate{
@@ -124,7 +160,8 @@ extension HomeViewController: HomeViewModelDelegate{
 
 extension HomeViewController: TrackTableSectionViewDelegate{
     func didSelectTrack(_ track: MusicEntity) {
-        
+        showMusicControllerView()
+        musicControllerView.updateUI(with: track)
     }
 }
 
@@ -132,15 +169,15 @@ extension HomeViewController: MusiSectionViewDelegate {
     func didTapPlayPause() {
         print("Play/Pause tapped")
     }
-
+    
     func didTapNext() {
         print("Next tapped")
     }
-
+    
     func didTapPrevious() {
         print("Previous tapped")
     }
-
+    
     func didChangeSliderValue(to value: Float) {
         print("Slider value changed to: \(value)")
     }

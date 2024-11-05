@@ -24,7 +24,10 @@ class TrackTableSectionView: UIView {
         let table = UITableView(frame: .zero)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .white
-         table.register(TrackTableViewCell.self, forCellReuseIdentifier: "Cell")
+        table.delegate = self
+        table.dataSource = self
+        table.register(TrackTableViewCell.self, forCellReuseIdentifier: "Cell")
+         
         return table
     }()
     
@@ -72,7 +75,6 @@ extension TrackTableSectionView {
         addSubview(trackTableView)
         addSubview(emptyStateLabel)
         addSubview(loadingIndicator)
-        trackTableView.dataSource = self
     }
     
     func setUpConstraints() {
@@ -110,7 +112,7 @@ extension TrackTableSectionView {
     }
 }
 
-extension TrackTableSectionView: UITableViewDataSource {
+extension TrackTableSectionView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tracks.count
     }
@@ -123,5 +125,11 @@ extension TrackTableSectionView: UITableViewDataSource {
         let track = tracks[indexPath.row]
         cell.configure(with: track)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedTrack = tracks[indexPath.row]
+        delegate?.didSelectTrack(selectedTrack)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

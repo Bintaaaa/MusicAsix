@@ -21,9 +21,17 @@ class MusicSectionView: UIView {
     
     weak var delegate: MusiSectionViewDelegate?
     
+    private let nowPlayingLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Now Playing"
+        label.numberOfLines = 1
+        return label
+    }()
 
     private let trackArtworkImageView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +40,7 @@ class MusicSectionView: UIView {
     }()
     
     private let trackNameLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel(frame: .zero)
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
@@ -121,6 +129,7 @@ class MusicSectionView: UIView {
     
 
     private func setupViews() {
+        addSubview(nowPlayingLabel)
         addSubview(trackArtworkImageView)
         addSubview(trackNameLabel)
         addSubview(artistNameLabel)
@@ -132,14 +141,19 @@ class MusicSectionView: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-      
+            
+            nowPlayingLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8.0),
+            nowPlayingLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),
+            nowPlayingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16.0),
+            
+            trackArtworkImageView.topAnchor.constraint(equalTo: nowPlayingLabel.bottomAnchor, constant: 8.0),
             trackArtworkImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             trackArtworkImageView.widthAnchor.constraint(equalToConstant: 50),
             trackArtworkImageView.heightAnchor.constraint(equalToConstant: 50),
 
              trackNameLabel.leadingAnchor.constraint(equalTo: trackArtworkImageView.trailingAnchor, constant: 16),
             trackNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            trackNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            trackNameLabel.topAnchor.constraint(equalTo: nowPlayingLabel.bottomAnchor, constant: 8),
 
             artistNameLabel.leadingAnchor.constraint(equalTo: trackArtworkImageView.trailingAnchor, constant: 16),
             artistNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
