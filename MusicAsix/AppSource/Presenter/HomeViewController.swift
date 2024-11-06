@@ -122,6 +122,7 @@ extension HomeViewController{
 
 extension HomeViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        trackTableSeaction.updatePlayingTrack(nil)
         guard let artist = searchBar.text, !artist.isEmpty else{
             return
         }

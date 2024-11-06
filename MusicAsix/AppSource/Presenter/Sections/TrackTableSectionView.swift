@@ -69,7 +69,7 @@ class TrackTableSectionView: UIView {
         stopLoading()
     }
     
-    func updatePlayingTrack(_ index: Int) {
+    func updatePlayingTrack(_ index: Int?) {
         currentlyPlayingTrack = index
         trackTableView.reloadData()
     }
@@ -130,7 +130,13 @@ extension TrackTableSectionView: UITableViewDataSource, UITableViewDelegate {
         }
         
         let track = tracks[indexPath.row]
-        let isPlaying = indexPath.row == currentlyPlayingTrack
+        
+        var isPlaying: Bool = false
+        
+        if let currentlyPlayingTrack{
+            isPlaying = indexPath.row == currentlyPlayingTrack
+        }
+        
         cell.configure(with: track, isPlaying: isPlaying)
         return cell
     }
