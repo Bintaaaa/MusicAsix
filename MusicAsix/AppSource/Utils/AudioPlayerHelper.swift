@@ -15,8 +15,13 @@ class AudioPlayerHelper {
     private init() { }
 
     func playTrack(with url: URL) {
-        player = AVPlayer(url: url)
-        player?.play()
+        do{
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+            player =  AVPlayer(url: url)
+            player?.play()
+        }catch let error{
+            print(error.localizedDescription)
+        }
     }
 
     func pause() {
