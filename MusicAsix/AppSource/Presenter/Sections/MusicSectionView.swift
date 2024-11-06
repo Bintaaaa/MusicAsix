@@ -20,7 +20,7 @@ class MusicSectionView: UIView {
     
     weak var delegate: MusiSectionViewDelegate?
     
-    private let nowPlayingLabel: UILabel = {
+    private lazy var nowPlayingLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +29,7 @@ class MusicSectionView: UIView {
         return label
     }()
 
-    private let trackArtworkImageView: UIImageView = {
+    private lazy var trackArtworkImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -38,7 +38,7 @@ class MusicSectionView: UIView {
         return imageView
     }()
     
-    private let trackNameLabel: UILabel = {
+    private lazy var trackNameLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +46,7 @@ class MusicSectionView: UIView {
         return label
     }()
     
-    private let artistNameLabel: UILabel = {
+    private lazy var artistNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .gray
@@ -55,7 +55,7 @@ class MusicSectionView: UIView {
         return label
     }()
     
-    private let previousButton: UIButton = {
+    private lazy var previousButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "backward.fill"), for: .normal)
         button.tintColor = .black
@@ -64,7 +64,7 @@ class MusicSectionView: UIView {
         return button
     }()
 
-    private let playPauseButton: UIButton = {
+    private lazy var playPauseButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "pause.fill"), for: .normal)
         button.tintColor = .black
@@ -73,7 +73,7 @@ class MusicSectionView: UIView {
         return button
     }()
 
-    private let nextButton: UIButton = {
+    private lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "forward.fill"), for: .normal)
         button.tintColor = .black
